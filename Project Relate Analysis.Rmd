@@ -1,0 +1,606 @@
+---
+title: "Project Relate Analysis"
+output: html_document
+date: "2024-04-17"
+---
+
+```{r setup, include = FALSE}
+## Load packages
+library(tidyverse)
+library(here)
+library(MOTE)
+library(psych)
+library(scales)
+library(kableExtra)
+
+
+## Set seed
+set.seed(50816)
+
+
+## Load data
+clean_data <- readRDS(here("Data", "Clean Project Relate Data.rds"))
+imputed_data <- readRDS(here("Data", "Imputed Project Relate Data.rds"))
+
+
+## Define subsets
+all_participants <- clean_data %>%
+  pull(email_id)
+
+intervention_only <- clean_data %>%
+  filter(condition == "Intervention") %>%
+  pull(email_id)
+
+in_relationship <- clean_data %>%
+  filter(
+    b_relstat %in% 1:3,
+    f_relstat %in% 1:3
+  ) %>%
+  pull(email_id)
+
+f_completers <- clean_data %>%
+  filter(f_finished == 1) %>%
+  pull(email_id)
+
+
+## Define functions
+my_regression <- function(my_formula, participants) {
+
+  model_output <- with(
+    imputed_data,
+    lm(
+      formula = as.formula(my_formula),
+      subset = email_id %in% participants
+    )
+  )
+  
+  pooled_output <- summary(pool(model_output)) %>%
+    mutate(dv = gsub("\\s.*$", "", my_formula))
+  
+  return(pooled_output)
+  
+}
+
+my_t_test <- function(my_formula, participants) {
+
+  imputed_data_completed <- map(
+    1:20, 
+    ~ complete(imputed_data, .)
+  )
+  
+  pooled_result <- map(
+    imputed_data_completed,
+    ~ {
+      
+      t_test_result <- t.test(
+        data = .,
+        as.formula(my_formula),
+        subset = email_id %in% participants
+      )
+      
+      out <- tibble(
+        name = t_test_result$data.name,
+        control_mean = t_test_result$estimate[["mean in group Control"]],
+        treatment_mean = t_test_result$estimate[["mean in group Intervention"]],
+        statistic = t_test_result$statistic[["t"]],
+        df = t_test_result$parameter[["df"]],
+        p = t_test_result$p.value
+      )
+      
+      return(out)
+      
+    }
+  ) %>%
+    bind_rows() %>%
+    group_by(name) %>%
+    summarize_all(mean)
+  
+  return(pooled_result)
+
+}
+
+my_effect_size <- function(pre, post, participants) {
+
+  imputed_data_completed <- map(
+    1:20, 
+    ~ complete(imputed_data, .)
+  )
+  
+  pooled_result <- map(
+    imputed_data_completed,
+    ~ {
+      
+      summary_statistics <- (.) %>%
+        filter(email_id %in% participants) %>%
+        summarize(
+          pre_mean = mean(get(pre)),
+          post_mean = mean(get(post)),
+          pre_sd = sd(get(pre)),
+          post_sd = sd(get(post)),
+          n = n()
+        )
+  
+      d_av <- d.dep.t.avg(
+        m1 = summary_statistics$post_mean,
+        sd1 = summary_statistics$post_sd,
+        m2 = summary_statistics$pre_mean,
+        sd2 = summary_statistics$pre_sd,
+        n = summary_statistics$n
+      )
+      
+      out <- tibble(
+        d = d_av$d,
+        pre_mean = summary_statistics$pre_mean,
+        pre_sd = summary_statistics$pre_sd,
+        post_mean = summary_statistics$post_mean,
+        post_sd = summary_statistics$post_sd,
+        lower = d_av$dlow,
+        upper = d_av$dhigh
+      )
+      
+      return(out)
+      
+    }
+  ) %>%
+    bind_rows() %>%
+    summarize_all(mean) %>%
+    mutate(pre = pre, post = post)
+
+  return(pooled_result)
+  
+}
+
+my_print <- function(x) {
+  
+  x %>%
+    kable(digits = 3) %>%
+    kable_styling() %>%
+    return()
+  
+}
+
+my_count <- function(x) {
+  
+  clean_data %>%
+    count(condition, {{x}}) %>%
+    group_by(condition) %>%
+    mutate(
+      percent = percent(n / sum(n), .1)
+    ) %>%
+    my_print()
+  
+}
+
+my_mean_sd <- function(x) {
+  
+  clean_data %>%
+    group_by(condition) %>%
+    summarize(
+      mean = mean({{x}}, na.rm = T),
+      sd = sd({{x}}, na.rm = T)
+    ) %>%
+    my_print()
+  
+}
+```
+
+# Missing Data
+
+```{r}
+map(
+  clean_data,
+  ~ {.} %>%
+    is.na() %>%
+    mean() %>%
+    scales::percent(.1)
+)
+```
+
+# Scale alphas
+
+```{r}
+# PHQ-9
+clean_data %>%
+  select("b_phq_" %+% 1:9) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_phq_" %+% 1:9) %>%
+  alpha() %>%
+  pluck("total")
+
+# GAD-7
+clean_data %>%
+  select("b_gad_" %+% 1:7) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_gad_" %+% 1:7) %>%
+  alpha() %>%
+  pluck("total")
+
+# RKQ
+clean_data %>%
+  select("b_rkq_" %+% 1:21) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_rkq_" %+% 1:21) %>%
+  alpha() %>%
+  pluck("total")
+
+# RDM
+clean_data %>%
+  select("b_rdm_" %+% 1:12) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_rdm_" %+% 1:12) %>%
+  alpha() %>%
+  pluck("total")
+
+# BHS-4
+clean_data %>%
+  select("b_bhs_" %+% 1:4) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("pi_bhs_" %+% 1:4) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_bhs_" %+% 1:4) %>%
+  alpha() %>%
+  pluck("total")
+
+# ECR
+clean_data %>%
+  select("b_ecr_" %+% 1:9) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_ecr_" %+% 1:9) %>%
+  alpha() %>%
+  pluck("total")
+
+# IRI
+clean_data %>%
+  select("b_iri_empcon_" %+% 1:13) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_iri_empcon_" %+% 1:13) %>%
+  alpha() %>%
+  pluck("total")
+
+# CSI-4
+clean_data %>%
+  select(c("b_csi_1", "b_csi_2_" %+% 1:3)) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select(c("f_csi_1", "f_csi_2_" %+% 1:3)) %>%
+  alpha() %>%
+  pluck("total")
+
+# ULS loneliness
+clean_data %>%
+  select("b_lonely_" %+% 1:3) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_lonely_" %+% 1:3) %>%
+  alpha() %>%
+  pluck("total")
+
+# RLI
+clean_data %>%
+  select("pi_rel_learn_" %+% 1:3) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("pi_rel_satisfaction_" %+% 1:3) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_REL_attending_" %+% 1:3) %>%
+  alpha() %>%
+  pluck("total")
+```
+
+# Sample Description
+
+```{r}
+## Demographics
+# Age
+my_mean_sd(age)
+t.test(clean_data$age ~ clean_data$condition)
+
+# Sex
+my_count(sex)
+chisq.test(clean_data$sex, clean_data$condition)
+
+# Gender
+clean_data %>%
+  separate_longer_delim(
+    gender,
+    ","
+  ) %>%
+  count(condition, gender) %>%
+  group_by(condition) %>%
+  mutate(percent = percent(n / sum(n), .1)) %>%
+  print(n = 99)
+
+# Race
+clean_data %>%
+  separate_longer_delim(
+    race,
+    ","
+  ) %>%
+  count(condition, race) %>%
+  group_by(condition) %>%
+  mutate(percent = percent(n / sum(n), .1)) %>%
+  print(n = 99)
+
+# Sexual orientation
+my_count(orientation)
+chisq.test(clean_data$orientation, clean_data$condition)
+
+# Language
+# my_count(language)
+# chisq.test(clean_data$sex, clean_data$condition)
+
+# Grade
+# my_count(grade)
+# chisq.test(clean_data$sex, clean_data$condition)
+
+
+## Outcomes
+# PHQ
+my_mean_sd(b_phq_mean)
+my_t_test("b_phq_mean ~ condition", all_participants)
+
+# GAD
+my_mean_sd(b_gad_mean)
+my_t_test("b_gad_mean ~ condition", all_participants)
+
+# RKQ
+my_mean_sd(b_rkq_mean)
+my_t_test("b_rkq_mean ~ condition", all_participants)
+
+# RDM
+my_mean_sd(b_rdm_mean)
+my_t_test("b_rdm_mean ~ condition", all_participants)
+
+# BHS
+my_mean_sd(b_bhs_mean)
+my_t_test("b_bhs_mean ~ condition", all_participants)
+
+# ECR
+my_mean_sd(b_ecr_mean)
+my_t_test("b_ecr_mean ~ condition", all_participants)
+
+# ULS
+my_mean_sd(b_uls_mean)
+my_t_test("b_uls_mean ~ condition", all_participants)
+
+# IRI
+my_mean_sd(b_iri_mean)
+my_t_test("b_iri_mean ~ condition", in_relationship)
+
+# CSI
+my_mean_sd(b_csi_mean)
+my_t_test("b_csi_mean ~ condition", in_relationship)
+```
+
+# Treatment Effects
+
+```{r}
+# Post-intervention
+r_rel_learn_pi <- my_regression("pi_rel_learn_mean ~ condition", all_participants)
+r_rel_satisfaction_pi <- my_regression("pi_rel_satisfaction_mean ~ condition", all_participants)
+r_pfs_pi <- my_regression("pi_pfs_mean ~ condition", all_participants)
+r_bhs_pi <- my_regression("pi_bhs_mean ~ b_bhs_mean + condition", all_participants)
+
+# Follow-up
+r_phq <- my_regression("f_phq_mean ~ b_phq_mean + condition", all_participants)
+r_gad <- my_regression("f_gad_mean ~ b_gad_mean + condition", all_participants)
+r_rkq <- my_regression("f_rkq_mean ~ b_rkq_mean + condition", all_participants)
+r_rdm <- my_regression("f_rdm_mean ~ b_rdm_mean + condition", all_participants)
+r_bhs <- my_regression("f_bhs_mean ~ b_bhs_mean + condition", all_participants)
+r_ecr <- my_regression("f_ecr_mean ~ b_ecr_mean + condition", all_participants)
+r_iri <- my_regression("f_iri_mean ~ b_iri_mean + condition", in_relationship)
+r_csi <- my_regression("f_csi_mean ~ b_csi_mean + condition", in_relationship)
+r_lonely <- my_regression("f_lonely_mean ~ b_lonely_mean + condition", all_participants)
+
+regressions <- bind_rows(
+  r_rel_learn_pi,
+  r_rel_satisfaction_pi,
+  r_pfs_pi,
+  r_bhs_pi,
+  r_phq,
+  r_gad,
+  r_rkq,
+  r_rdm,
+  r_bhs,
+  r_ecr,
+  r_iri,
+  r_csi,
+  r_lonely
+)
+
+regressions %>%
+  filter(term == "conditionIntervention") %>%
+  mutate(p.adj = p.adjust(p.value, "BH")) %>%
+  select(
+    dv,
+    iv = term,
+    estimate,
+    p.value,
+    p.adj
+  ) %>%
+  my_print()
+```
+
+# Within-Group Differences
+
+```{r}
+d_bhs_pi <- my_effect_size("b_bhs_mean", "pi_bhs_mean", intervention_only) 
+d_phq <- my_effect_size("b_phq_mean", "f_phq_mean", intervention_only)
+d_gad <- my_effect_size("b_gad_mean", "f_gad_mean", intervention_only)
+d_rkq <- my_effect_size("b_rkq_mean", "f_rkq_mean", intervention_only)
+d_rdm <- my_effect_size("b_rdm_mean", "f_rdm_mean", intervention_only) 
+d_bhs <- my_effect_size("b_bhs_mean", "f_bhs_mean", intervention_only) 
+d_ecr <- my_effect_size("b_ecr_mean", "f_ecr_mean", intervention_only) 
+d_iri <- my_effect_size("b_iri_mean", "f_iri_mean", intersect(intervention_only, in_relationship))
+d_csi <- my_effect_size("b_csi_mean", "f_csi_mean", intersect(intervention_only, in_relationship))
+d_lonely <- my_effect_size("b_lonely_mean", "f_lonely_mean", intervention_only)
+
+standardized_differences <- bind_rows(
+  d_bhs_pi,
+  d_phq,
+  d_gad,
+  d_rkq,
+  d_rdm,
+  d_bhs,
+  d_ecr,
+  d_iri,
+  d_csi,
+  d_lonely
+)
+
+standardized_differences %>%
+  select(pre, post, pre_mean, pre_sd, post_mean, post_sd, d, lower, upper) %>%
+  my_print()
+```
+
+# Figure 1
+
+```{r}
+clean_data %>%
+  select(
+    condition,
+    matches("b_.*_mean"),
+    matches("pi_.*_mean"),
+    matches("f_.*_mean"),
+    -c(pi_rel_learn_mean, pi_rel_satisfaction_mean, pi_pfs_mean, f_rel_attending_mean)
+  ) %>%
+  pivot_longer(
+    -condition
+  ) %>%
+  group_by(condition, name) %>%
+  summarize(
+    mean = mean(value, na.rm = T),
+    se = sd(value, na.rm = T) / sqrt(n())
+  ) %>%
+  mutate(
+    timepoint = toupper(str_extract(name, "^[^_]+(?=_)")) %>%
+      factor(levels = c("B", "PI", "F")),
+    variable = toupper(str_extract(name, "(?<=_).*(?=_)")),
+    lower = mean - (1.96 * se),
+    upper = mean + (1.96 * se)
+  ) %>%
+  ggplot(
+    aes(timepoint, mean, group = condition, color = condition)
+  ) +
+  geom_line() +
+  geom_errorbar(aes(ymax = upper, ymin = lower)) +
+  facet_wrap(~ variable, scales = "free") +
+  scale_y_continuous(name = "Mean") +
+  scale_x_discrete(name = "Timepoint") +
+  scale_color_discrete(name = "Condition") +
+  theme_classic()
+```
+
+# Appendix A. Tests of Baseline Difference
+
+```{r}
+t_phq <- my_t_test("b_phq_mean ~ condition", all_participants)
+t_gad <- my_t_test("b_gad_mean ~ condition", all_participants)
+t_rkq <- my_t_test("b_rkq_mean ~ condition", all_participants)
+t_rdm <- my_t_test("b_rdm_mean ~ condition", all_participants)
+t_bhs <- my_t_test("b_bhs_mean ~ condition", all_participants)
+t_ecr <- my_t_test("b_ecr_mean ~ condition", all_participants)
+t_lonely <- my_t_test("b_lonely_mean ~ condition", all_participants)
+t_iri <- my_t_test("b_iri_mean ~ condition", in_relationship)
+t_csi <- my_t_test("b_csi_mean ~ condition", in_relationship)
+
+t_tests <- bind_rows(
+  t_phq,
+  t_gad,
+  t_rkq,
+  t_rdm,
+  t_bhs,
+  t_ecr,
+  t_iri,
+  t_csi,
+  t_lonely
+)
+
+t_tests %>%
+  my_print()
+```
+
+# Appendix B. Modules vs Control
+
+```{r}
+# Post-intervention
+r_rel_learn_pi <- my_regression("pi_rel_learn_mean ~ condition_detailed", all_participants)
+r_rel_satisfaction_pi <- my_regression("pi_rel_satisfaction_mean ~ condition_detailed", all_participants)
+r_pfs_pi <- my_regression("pi_pfs_mean ~ condition_detailed", all_participants)
+r_bhs_pi <- my_regression("pi_bhs_mean ~ b_bhs_mean + condition_detailed", all_participants)
+
+# Follow-up
+r_phq <- my_regression("f_phq_mean ~ b_phq_mean + condition_detailed", all_participants)
+r_gad <- my_regression("f_gad_mean ~ b_gad_mean + condition_detailed", all_participants)
+r_rkq <- my_regression("f_rkq_mean ~ b_rkq_mean + condition_detailed", all_participants)
+r_rdm <- my_regression("f_rdm_mean ~ b_rdm_mean + condition_detailed", all_participants)
+r_bhs <- my_regression("f_bhs_mean ~ b_bhs_mean + condition_detailed", all_participants)
+r_ecr <- my_regression("f_ecr_mean ~ b_ecr_mean + condition_detailed", all_participants)
+r_iri <- my_regression("f_iri_mean ~ b_iri_mean + condition_detailed", in_relationship)
+r_csi <- my_regression("f_csi_mean ~ b_csi_mean + condition_detailed", in_relationship)
+r_lonely <- my_regression("f_lonely_mean ~ b_lonely_mean + condition_detailed", all_participants)
+
+regressions <- bind_rows(
+  r_rel_learn_pi,
+  r_rel_satisfaction_pi,
+  r_pfs_pi,
+  r_bhs_pi,
+  r_phq,
+  r_gad,
+  r_rkq,
+  r_rdm,
+  r_bhs,
+  r_ecr,
+  r_iri,
+  r_csi,
+  r_lonely
+)
+
+regressions %>%
+  filter(grepl("^condition_detailed", term)) %>%
+  mutate(
+    iv = gsub("condition_detailed", "", term),
+    p.adj = p.adjust(p.value, "BH")
+  ) %>%
+  select(
+    dv,
+    iv,
+    estimate,
+    p.value,
+    p.adj
+  ) %>%
+  my_print()
+```
