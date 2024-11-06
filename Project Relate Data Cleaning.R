@@ -50,6 +50,12 @@ clean_data <- merged_data %>%
     ) %>%
       factor(levels = c("Control", "Communication Module", "Insight Module", "Stay or Go Module")),
     
+    # Demographics
+    across(
+      c(starts_with("b_dem"), -b_dem_zip_code),
+      as.character
+    ),
+    
     # Recode reverse-coded RDM items
     across(
       c(
@@ -57,6 +63,15 @@ clean_data <- merged_data %>%
         f_rdm_8, f_rdm_12
       ),
       ~ 6 - .
+    ),
+    
+    # Recode reverse-coded ECR items
+    across(
+      c(
+        b_ecr_1, b_ecr_2, b_ecr_3, b_ecr_4,
+        f_ecr_1, f_ecr_2, f_ecr_3, f_ecr_4
+      ),
+      ~ 8 - .
     ),
     
     # Recode reverse-coded IRI items

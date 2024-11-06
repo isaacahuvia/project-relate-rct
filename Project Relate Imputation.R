@@ -13,14 +13,17 @@ clean_data <- readRDS(here("Data", "Clean Project Relate Data.rds"))
 
 
 ## Impute data
+# Get configuration
 mice_configuration <- mice(
   clean_data,
   maxit = 0
 )
 
+# Don't impute using email, ZIP, or state
 predictor_matrix <- mice_configuration$predictorMatrix
 predictor_matrix[, c("email_id", "zip", "state")] <- 0
 
+# Impute
 imputed_data <- mice(
   clean_data,
   predictor_matrix = predictor_matrix,

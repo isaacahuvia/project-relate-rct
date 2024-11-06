@@ -579,243 +579,1546 @@ display: none;
 </div>
 
 
-<div id="tests-of-baseline-difference" class="section level1">
-<h1>Tests of Baseline Difference</h1>
-<pre class="r"><code>t_phq &lt;- my_t_test(&quot;b_phq_mean ~ condition&quot;, all_participants)
-t_gad &lt;- my_t_test(&quot;b_gad_mean ~ condition&quot;, all_participants)
-t_rkq &lt;- my_t_test(&quot;b_rkq_mean ~ condition&quot;, all_participants)
-t_rdm &lt;- my_t_test(&quot;b_rdm_mean ~ condition&quot;, all_participants)
-t_bhs &lt;- my_t_test(&quot;b_bhs_mean ~ condition&quot;, all_participants)
-t_ecr &lt;- my_t_test(&quot;b_ecr_mean ~ condition&quot;, all_participants)
-t_lonely &lt;- my_t_test(&quot;b_lonely_mean ~ condition&quot;, all_participants)
-t_iri &lt;- my_t_test(&quot;b_iri_mean ~ condition&quot;, in_relationship)
-t_csi &lt;- my_t_test(&quot;b_csi_mean ~ condition&quot;, in_relationship)
-
-t_tests &lt;- bind_rows(
-  t_phq,
-  t_gad,
-  t_rkq,
-  t_rdm,
-  t_bhs,
-  t_ecr,
-  t_iri,
-  t_csi,
-  t_lonely
-)
-
-t_tests %&gt;%
-  my_print()</code></pre>
+<div id="missing-data" class="section level1">
+<h1>Missing Data</h1>
+<pre class="r"><code>map(
+  clean_data,
+  ~ {.} %&gt;%
+    is.na() %&gt;%
+    mean() %&gt;%
+    scales::percent(.1)
+)</code></pre>
+<pre><code>## $email_id
+## [1] &quot;0.0%&quot;
+## 
+## $condition
+## [1] &quot;0.0%&quot;
+## 
+## $condition_detailed
+## [1] &quot;0.0%&quot;
+## 
+## $b_finished
+## [1] &quot;0.0%&quot;
+## 
+## $f_finished
+## [1] &quot;0.0%&quot;
+## 
+## $age
+## [1] &quot;0.0%&quot;
+## 
+## $sex
+## [1] &quot;0.0%&quot;
+## 
+## $gender
+## [1] &quot;0.0%&quot;
+## 
+## $orientation
+## [1] &quot;0.0%&quot;
+## 
+## $race
+## [1] &quot;0.0%&quot;
+## 
+## $language
+## [1] &quot;0.0%&quot;
+## 
+## $grade
+## [1] &quot;0.0%&quot;
+## 
+## $zip
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_1
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_2
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_3
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_4
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_5
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_6
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_7
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_8
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_9
+## [1] &quot;0.0%&quot;
+## 
+## $ACEs_10
+## [1] &quot;0.0%&quot;
+## 
+## $b_relstat
+## [1] &quot;0.0%&quot;
+## 
+## $f_relstat
+## [1] &quot;1.5%&quot;
+## 
+## $b_phq_mean
+## [1] &quot;0.3%&quot;
+## 
+## $b_phq_1
+## [1] &quot;0.0%&quot;
+## 
+## $b_phq_2
+## [1] &quot;0.0%&quot;
+## 
+## $b_phq_3
+## [1] &quot;0.0%&quot;
+## 
+## $b_phq_4
+## [1] &quot;0.0%&quot;
+## 
+## $b_phq_5
+## [1] &quot;0.0%&quot;
+## 
+## $b_phq_6
+## [1] &quot;0.0%&quot;
+## 
+## $b_phq_7
+## [1] &quot;0.0%&quot;
+## 
+## $b_phq_8
+## [1] &quot;0.3%&quot;
+## 
+## $b_phq_9
+## [1] &quot;0.0%&quot;
+## 
+## $f_phq_mean
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_1
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_2
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_3
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_4
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_5
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_6
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_7
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_8
+## [1] &quot;8.2%&quot;
+## 
+## $f_phq_9
+## [1] &quot;8.2%&quot;
+## 
+## $b_gad_mean
+## [1] &quot;0.0%&quot;
+## 
+## $b_gad_1
+## [1] &quot;0.0%&quot;
+## 
+## $b_gad_2
+## [1] &quot;0.0%&quot;
+## 
+## $b_gad_3
+## [1] &quot;0.0%&quot;
+## 
+## $b_gad_4
+## [1] &quot;0.0%&quot;
+## 
+## $b_gad_5
+## [1] &quot;0.0%&quot;
+## 
+## $b_gad_6
+## [1] &quot;0.0%&quot;
+## 
+## $b_gad_7
+## [1] &quot;0.0%&quot;
+## 
+## $f_gad_mean
+## [1] &quot;8.2%&quot;
+## 
+## $f_gad_1
+## [1] &quot;7.9%&quot;
+## 
+## $f_gad_2
+## [1] &quot;7.9%&quot;
+## 
+## $f_gad_3
+## [1] &quot;7.9%&quot;
+## 
+## $f_gad_4
+## [1] &quot;7.9%&quot;
+## 
+## $f_gad_5
+## [1] &quot;7.9%&quot;
+## 
+## $f_gad_6
+## [1] &quot;8.2%&quot;
+## 
+## $f_gad_7
+## [1] &quot;8.2%&quot;
+## 
+## $b_rkq_mean
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_1
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_2
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_3
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_4
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_5
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_6
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_7
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_8
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_9
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_10
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_11
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_12
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_13
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_14
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_15
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_16
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_17
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_18
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_19
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_20
+## [1] &quot;0.0%&quot;
+## 
+## $b_rkq_21
+## [1] &quot;0.0%&quot;
+## 
+## $f_rkq_mean
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_1
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_2
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_3
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_4
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_5
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_6
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_7
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_8
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_9
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_10
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_11
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_12
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_13
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_14
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_15
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_16
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_17
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_18
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_19
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_20
+## [1] &quot;8.5%&quot;
+## 
+## $f_rkq_21
+## [1] &quot;8.5%&quot;
+## 
+## $b_rdm_mean
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_1
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_2
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_3
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_4
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_5
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_6
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_7
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_8
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_9
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_10
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_11
+## [1] &quot;0.0%&quot;
+## 
+## $b_rdm_12
+## [1] &quot;0.0%&quot;
+## 
+## $f_rdm_mean
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_1
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_2
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_3
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_4
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_5
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_6
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_7
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_8
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_9
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_10
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_11
+## [1] &quot;8.8%&quot;
+## 
+## $f_rdm_12
+## [1] &quot;8.8%&quot;
+## 
+## $b_bhs_mean
+## [1] &quot;0.0%&quot;
+## 
+## $b_bhs_1
+## [1] &quot;0.0%&quot;
+## 
+## $b_bhs_2
+## [1] &quot;0.0%&quot;
+## 
+## $b_bhs_3
+## [1] &quot;0.0%&quot;
+## 
+## $b_bhs_4
+## [1] &quot;0.0%&quot;
+## 
+## $pi_bhs_mean
+## [1] &quot;0.6%&quot;
+## 
+## $pi_bhs_1
+## [1] &quot;0.6%&quot;
+## 
+## $pi_bhs_2
+## [1] &quot;0.6%&quot;
+## 
+## $pi_bhs_3
+## [1] &quot;0.6%&quot;
+## 
+## $pi_bhs_4
+## [1] &quot;0.6%&quot;
+## 
+## $f_bhs_mean
+## [1] &quot;8.2%&quot;
+## 
+## $f_bhs_1
+## [1] &quot;8.2%&quot;
+## 
+## $f_bhs_2
+## [1] &quot;8.2%&quot;
+## 
+## $f_bhs_3
+## [1] &quot;8.2%&quot;
+## 
+## $f_bhs_4
+## [1] &quot;8.2%&quot;
+## 
+## $b_ecr_mean
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_1
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_2
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_3
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_4
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_5
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_6
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_7
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_8
+## [1] &quot;0.0%&quot;
+## 
+## $b_ecr_9
+## [1] &quot;0.0%&quot;
+## 
+## $f_ecr_mean
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_1
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_2
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_3
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_4
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_5
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_6
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_7
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_8
+## [1] &quot;8.5%&quot;
+## 
+## $f_ecr_9
+## [1] &quot;8.5%&quot;
+## 
+## $b_iri_mean
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_1
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_2
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_3
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_4
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_5
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_6
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_7
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_8
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_9
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_10
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_11
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_12
+## [1] &quot;42.2%&quot;
+## 
+## $b_iri_empcon_13
+## [1] &quot;42.2%&quot;
+## 
+## $f_iri_mean
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_1
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_2
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_3
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_4
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_5
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_6
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_7
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_8
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_9
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_10
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_11
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_12
+## [1] &quot;45.6%&quot;
+## 
+## $f_iri_empcon_13
+## [1] &quot;45.6%&quot;
+## 
+## $b_csi_mean
+## [1] &quot;42.2%&quot;
+## 
+## $b_csi_1
+## [1] &quot;42.2%&quot;
+## 
+## $b_csi_2_1
+## [1] &quot;42.2%&quot;
+## 
+## $b_csi_2_2
+## [1] &quot;42.2%&quot;
+## 
+## $b_csi_2_3
+## [1] &quot;42.2%&quot;
+## 
+## $f_csi_mean
+## [1] &quot;14.3%&quot;
+## 
+## $f_csi_1
+## [1] &quot;11.2%&quot;
+## 
+## $f_csi_2_1
+## [1] &quot;14.0%&quot;
+## 
+## $f_csi_2_2
+## [1] &quot;14.0%&quot;
+## 
+## $f_csi_2_3
+## [1] &quot;14.0%&quot;
+## 
+## $b_uls_mean
+## [1] &quot;0.0%&quot;
+## 
+## $b_lonely_1
+## [1] &quot;0.0%&quot;
+## 
+## $b_lonely_2
+## [1] &quot;0.0%&quot;
+## 
+## $b_lonely_3
+## [1] &quot;0.0%&quot;
+## 
+## $f_uls_mean
+## [1] &quot;9.1%&quot;
+## 
+## $f_lonely_1
+## [1] &quot;9.1%&quot;
+## 
+## $f_lonely_2
+## [1] &quot;9.1%&quot;
+## 
+## $f_lonely_3
+## [1] &quot;9.1%&quot;
+## 
+## $pi_pfs_mean
+## [1] &quot;0.6%&quot;
+## 
+## $pi_feedback_1_1
+## [1] &quot;0.3%&quot;
+## 
+## $pi_feedback_1_2
+## [1] &quot;0.3%&quot;
+## 
+## $pi_feedback_1_3
+## [1] &quot;0.3%&quot;
+## 
+## $pi_feedback_1_4
+## [1] &quot;0.6%&quot;
+## 
+## $pi_feedback_1_5
+## [1] &quot;0.3%&quot;
+## 
+## $pi_feedback_1_6
+## [1] &quot;0.3%&quot;
+## 
+## $pi_feedback_1_7
+## [1] &quot;0.3%&quot;
+## 
+## $pi_rel_learn_mean
+## [1] &quot;0.3%&quot;
+## 
+## $pi_rel_learn_1
+## [1] &quot;0.3%&quot;
+## 
+## $pi_rel_learn_2
+## [1] &quot;0.3%&quot;
+## 
+## $pi_rel_learn_3
+## [1] &quot;0.3%&quot;
+## 
+## $pi_rel_satisfaction_mean
+## [1] &quot;0.6%&quot;
+## 
+## $pi_rel_satisfaction_1
+## [1] &quot;0.6%&quot;
+## 
+## $pi_rel_satisfaction_2
+## [1] &quot;0.6%&quot;
+## 
+## $pi_rel_satisfaction_3
+## [1] &quot;0.6%&quot;
+## 
+## $f_rel_attending_mean
+## [1] &quot;8.8%&quot;
+## 
+## $f_REL_attending_1
+## [1] &quot;8.8%&quot;
+## 
+## $f_REL_attending_2
+## [1] &quot;8.8%&quot;
+## 
+## $f_REL_attending_3
+## [1] &quot;8.8%&quot;
+## 
+## $state
+## [1] &quot;2.4%&quot;</code></pre>
+</div>
+<div id="scale-alphas" class="section level1">
+<h1>Scale alphas</h1>
+<pre class="r"><code># PHQ-9
+clean_data %&gt;%
+  select(&quot;b_phq_&quot; %+% 1:9) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##   0.811686 0.8148152 0.8115271 0.3283588 4.400012 0.01553534 1.577508 0.5976013
+##  median_r
+##  0.351366</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_phq_&quot; %+% 1:9) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean      sd
+##  0.8696115 0.8708619 0.8705555 0.4283409 6.743649 0.01076846 1.136865 0.68875
+##   median_r
+##  0.4238192</code></pre>
+<pre class="r"><code># GAD-7
+clean_data %&gt;%
+  select(&quot;b_gad_&quot; %+% 1:7) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.8432201 0.8443295 0.8338826 0.4365664 5.423823 0.01322158 1.629614 0.6918705
+##   median_r
+##  0.4022421</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_gad_&quot; %+% 1:7) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha  G6(smc) average_r      S/N        ase    mean        sd
+##  0.9087172 0.9087462 0.900231 0.5872264 9.958447 0.00769251 1.24347 0.8287176
+##   median_r
+##  0.5603212</code></pre>
+<pre class="r"><code># RKQ
+clean_data %&gt;%
+  select(&quot;b_rkq_&quot; %+% 1:21) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N         ase     mean
+##  0.8872881 0.8876649 0.9234355 0.2734051 7.901939 0.009129665 4.133739
+##         sd median_r
+##  0.9492142 0.277575</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_rkq_&quot; %+% 1:21) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.8846479 0.8844427 0.9280182 0.2671108 7.653716 0.00926281 4.358962 0.9395276
+##   median_r
+##  0.2549015</code></pre>
+<pre class="r"><code># RDM
+clean_data %&gt;%
+  select(&quot;b_rdm_&quot; %+% 1:12) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>## Warning in alpha(.): Some items were negatively correlated with the first principal component and probably 
+## should be reversed.  
+## To do this, run the function again with the &#39;check.keys=TRUE&#39; option</code></pre>
+<pre><code>## Some items ( b_rdm_8 b_rdm_12 ) were negatively correlated with the first principal component and 
+## probably should be reversed.  
+## To do this, run the function again with the &#39;check.keys=TRUE&#39; option</code></pre>
+<pre><code>##  raw_alpha std.alpha G6(smc) average_r      S/N        ase   mean      sd
+##  0.7254473 0.7324918 0.79317 0.1857894 2.738203 0.02211615 3.4192 0.55776
+##   median_r
+##  0.2033787</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_rdm_&quot; %+% 1:12) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>## Warning in alpha(.): Some items were negatively correlated with the first principal component and probably 
+## should be reversed.  
+## To do this, run the function again with the &#39;check.keys=TRUE&#39; option</code></pre>
+<pre><code>## Some items ( f_rdm_8 ) were negatively correlated with the first principal component and 
+## probably should be reversed.  
+## To do this, run the function again with the &#39;check.keys=TRUE&#39; option</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.7521876 0.7684417 0.8161259 0.2166369 3.318567 0.02039697 3.734167 0.5373924
+##   median_r
+##  0.2382309</code></pre>
+<pre class="r"><code># BHS-4
+clean_data %&gt;%
+  select(&quot;b_bhs_&quot; %+% 1:4) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.8294591 0.8290952 0.7969152 0.5480845 4.851212 0.01541723 1.465046 0.7861666
+##   median_r
+##  0.5303768</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;pi_bhs_&quot; %+% 1:4) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.8732606 0.8731589 0.8508418 0.6324841 6.883881 0.01152628 1.077982 0.8118873
+##   median_r
+##  0.6085844</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_bhs_&quot; %+% 1:4) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha  G6(smc) average_r      S/N       ase     mean        sd
+##  0.8831761 0.8832084 0.860367 0.6540468 7.562256 0.0105924 1.093543 0.8661115
+##   median_r
+##  0.6276774</code></pre>
+<pre class="r"><code># ECR
+clean_data %&gt;%
+  select(&quot;b_ecr_&quot; %+% 1:9) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.7437539 0.7417344 0.8123387 0.2419127 2.871983 0.02181272 4.404593 0.9583638
+##   median_r
+##  0.2168747</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_ecr_&quot; %+% 1:9) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N       ase    mean       sd
+##  0.7816725 0.7817632 0.8361892 0.2847026 3.582179 0.0185863 4.08601 1.015814
+##   median_r
+##  0.2667979</code></pre>
+<pre class="r"><code># IRI
+clean_data %&gt;%
+  select(&quot;b_iri_empcon_&quot; %+% 1:13) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>## Warning in alpha(.): Some items were negatively correlated with the first principal component and probably 
+## should be reversed.  
+## To do this, run the function again with the &#39;check.keys=TRUE&#39; option</code></pre>
+<pre><code>## Some items ( b_iri_empcon_2 b_iri_empcon_6 b_iri_empcon_7 b_iri_empcon_8 ) were negatively correlated with the first principal component and 
+## probably should be reversed.  
+## To do this, run the function again with the &#39;check.keys=TRUE&#39; option</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.5398303 0.5869921 0.7243185 0.0985532 1.421261 0.03890163 2.313765 0.4434036
+##   median_r
+##  0.1884984</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_iri_empcon_&quot; %+% 1:13) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>## Warning in alpha(.): Some items were negatively correlated with the first principal component and probably 
+## should be reversed.  
+## To do this, run the function again with the &#39;check.keys=TRUE&#39; option</code></pre>
+<pre><code>## Some items ( f_iri_empcon_2 f_iri_empcon_6 f_iri_empcon_7 f_iri_empcon_8 ) were negatively correlated with the first principal component and 
+## probably should be reversed.  
+## To do this, run the function again with the &#39;check.keys=TRUE&#39; option</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N       ase    mean       sd
+##  0.7258986 0.7333884 0.8309656 0.1746437 2.750774 0.0226436 2.65621 0.718569
+##   median_r
+##  0.3481483</code></pre>
+<pre class="r"><code># CSI-4
+clean_data %&gt;%
+  select(c(&quot;b_csi_1&quot;, &quot;b_csi_2_&quot; %+% 1:3)) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.8575354 0.8582811 0.8288875 0.6022363 6.056221 0.01258989 3.653947 0.9938556
+##   median_r
+##  0.6078581</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(c(&quot;f_csi_1&quot;, &quot;f_csi_2_&quot; %+% 1:3)) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N         ase     mean       sd
+##  0.9245351 0.9242758 0.9095372  0.753175 12.20582 0.006890879 3.376142 1.359608
+##   median_r
+##  0.7716987</code></pre>
+<pre class="r"><code># ULS loneliness
+clean_data %&gt;%
+  select(&quot;b_lonely_&quot; %+% 1:3) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha  G6(smc) average_r      S/N        ase     mean        sd
+##  0.7684259 0.7711033 0.694139 0.5289524 3.368783 0.02204252 2.805471 0.7301927
+##   median_r
+##  0.5213845</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_lonely_&quot; %+% 1:3) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.8537129 0.8538149 0.7963504 0.6606581 5.840641 0.01397652 1.550725 0.8442961
+##   median_r
+##  0.6661396</code></pre>
+<pre class="r"><code># RLI
+clean_data %&gt;%
+  select(&quot;pi_rel_learn_&quot; %+% 1:3) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean        sd
+##  0.6184611 0.6273308 0.5433102 0.3594322 1.683345 0.03565094 5.852642 0.8440995
+##   median_r
+##  0.3142829</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;pi_rel_satisfaction_&quot; %+% 1:3) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r      S/N        ase     mean       sd
+##  0.6694692 0.6650306 0.5894141 0.3982366 1.985348 0.03101437 6.189602 0.714587
+##   median_r
+##  0.3362398</code></pre>
+<pre class="r"><code>clean_data %&gt;%
+  select(&quot;f_REL_attending_&quot; %+% 1:3) %&gt;%
+  alpha() %&gt;%
+  pluck(&quot;total&quot;)</code></pre>
+<pre><code>##  raw_alpha std.alpha   G6(smc) average_r    S/N        ase     mean       sd
+##  0.7486854 0.7508844 0.6703801 0.5011806 3.0142 0.02367252 5.338889 1.226021
+##   median_r
+##  0.4916286</code></pre>
+</div>
+<div id="sample-description" class="section level1">
+<h1>Sample Description</h1>
+<pre class="r"><code>## Demographics
+# Age
+my_mean_sd(age)</code></pre>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
-name
+Intervention
 </th>
-<th style="text-align:right;">
-control_mean
-</th>
-<th style="text-align:right;">
-treatment_mean
-</th>
-<th style="text-align:right;">
-statistic
-</th>
-<th style="text-align:right;">
-df
-</th>
-<th style="text-align:right;">
-p
+<th style="text-align:left;">
+Control
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-b_phq_mean by condition
+17.67 (1.37)
 </td>
-<td style="text-align:right;">
-1.576
-</td>
-<td style="text-align:right;">
-1.579
-</td>
-<td style="text-align:right;">
--0.033
-</td>
-<td style="text-align:right;">
-315.026
-</td>
-<td style="text-align:right;">
-0.974
-</td>
-</tr>
-<tr>
 <td style="text-align:left;">
-b_gad_mean by condition
-</td>
-<td style="text-align:right;">
-1.606
-</td>
-<td style="text-align:right;">
-1.650
-</td>
-<td style="text-align:right;">
--0.571
-</td>
-<td style="text-align:right;">
-317.465
-</td>
-<td style="text-align:right;">
-0.569
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_rkq_mean by condition
-</td>
-<td style="text-align:right;">
-4.145
-</td>
-<td style="text-align:right;">
-4.123
-</td>
-<td style="text-align:right;">
-0.209
-</td>
-<td style="text-align:right;">
-323.083
-</td>
-<td style="text-align:right;">
-0.835
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_rdm_mean by condition
-</td>
-<td style="text-align:right;">
-3.359
-</td>
-<td style="text-align:right;">
-3.289
-</td>
-<td style="text-align:right;">
-1.039
-</td>
-<td style="text-align:right;">
-317.502
-</td>
-<td style="text-align:right;">
-0.300
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_bhs_mean by condition
-</td>
-<td style="text-align:right;">
-1.348
-</td>
-<td style="text-align:right;">
-1.569
-</td>
-<td style="text-align:right;">
--2.553
-</td>
-<td style="text-align:right;">
-317.596
-</td>
-<td style="text-align:right;">
-0.011
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_ecr_mean by condition
-</td>
-<td style="text-align:right;">
-4.901
-</td>
-<td style="text-align:right;">
-5.027
-</td>
-<td style="text-align:right;">
--1.398
-</td>
-<td style="text-align:right;">
-324.579
-</td>
-<td style="text-align:right;">
-0.163
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_iri_mean by condition
-</td>
-<td style="text-align:right;">
-2.280
-</td>
-<td style="text-align:right;">
-2.365
-</td>
-<td style="text-align:right;">
--1.173
-</td>
-<td style="text-align:right;">
-148.439
-</td>
-<td style="text-align:right;">
-0.243
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_csi_mean by condition
-</td>
-<td style="text-align:right;">
-3.696
-</td>
-<td style="text-align:right;">
-3.750
-</td>
-<td style="text-align:right;">
--0.335
-</td>
-<td style="text-align:right;">
-151.432
-</td>
-<td style="text-align:right;">
-0.738
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_lonely_mean by condition
-</td>
-<td style="text-align:right;">
-2.787
-</td>
-<td style="text-align:right;">
-2.822
-</td>
-<td style="text-align:right;">
--0.431
-</td>
-<td style="text-align:right;">
-323.802
-</td>
-<td style="text-align:right;">
-0.667
+17.72 (1.34)
 </td>
 </tr>
 </tbody>
 </table>
+<pre class="r"><code>t.test(clean_data$age ~ clean_data$condition)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  clean_data$age by clean_data$condition
+## t = 0.37379, df = 324.47, p-value = 0.7088
+## alternative hypothesis: true difference in means between group Control and group Intervention is not equal to 0
+## 95 percent confidence interval:
+##  -0.2383651  0.3501931
+## sample estimates:
+##      mean in group Control mean in group Intervention 
+##                   17.72258                   17.66667</code></pre>
+<pre class="r"><code># Sex
+my_count(sex)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+125 (71.8%)
+</td>
+<td style="text-align:left;">
+107 (69.0%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+47 (27.0%)
+</td>
+<td style="text-align:left;">
+46 (29.7%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+2 (1.1%)
+</td>
+<td style="text-align:left;">
+2 (1.3%)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>chisq.test(clean_data$sex, clean_data$condition)</code></pre>
+<pre><code>## Warning in chisq.test(clean_data$sex, clean_data$condition): Chi-squared
+## approximation may be incorrect</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  clean_data$sex and clean_data$condition
+## X-squared = 0.31108, df = 2, p-value = 0.856</code></pre>
+<pre class="r"><code># Gender
+clean_data$gender_collapsed &lt;- case_when(
+  clean_data$gender == &quot;1&quot; ~ &quot;Man/Boy&quot;,
+  clean_data$gender == &quot;2&quot; ~ &quot;Woman/Girl&quot;,
+  clean_data$gender == &quot;15&quot; ~ NA_character_,
+  !is.na(clean_data$gender) ~ &quot;TGD&quot;,
+  T ~ NA_character_
+)
+
+my_count(gender_collapsed)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+gender_collapsed
+</th>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Man/Boy
+</td>
+<td style="text-align:left;">
+43 (24.7%)
+</td>
+<td style="text-align:left;">
+42 (27.1%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TGD
+</td>
+<td style="text-align:left;">
+67 (38.5%)
+</td>
+<td style="text-align:left;">
+55 (35.5%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Woman/Girl
+</td>
+<td style="text-align:left;">
+61 (35.1%)
+</td>
+<td style="text-align:left;">
+57 (36.8%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+3 (1.7%)
+</td>
+<td style="text-align:left;">
+1 (0.6%)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>chisq.test(clean_data$gender_collapsed, clean_data$condition)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  clean_data$gender_collapsed and clean_data$condition
+## X-squared = 0.43966, df = 2, p-value = 0.8027</code></pre>
+<pre class="r"><code># Race
+clean_data$race_collapsed &lt;- case_when(
+  clean_data$race == &quot;1&quot; ~ &quot;AI/AN&quot;,
+  clean_data$race == &quot;2&quot; ~ &quot;Asian&quot;,
+  clean_data$race == &quot;3&quot; ~ &quot;Black&quot;,
+  clean_data$race == &quot;4&quot; ~ &quot;Hispanic&quot;,
+  clean_data$race == &quot;5&quot; ~ &quot;NH/PI&quot;,
+  clean_data$race == &quot;6&quot; ~ &quot;White&quot;,
+  clean_data$race == &quot;8&quot; ~ NA_character_,
+  !is.na(clean_data$race) ~ &quot;Other/Multi&quot;,
+  T ~ NA_character_
+)
+
+my_count(race_collapsed)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+race_collapsed
+</th>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+AI/AN
+</td>
+<td style="text-align:left;">
+8 (4.6%)
+</td>
+<td style="text-align:left;">
+6 (3.9%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:left;">
+18 (10.3%)
+</td>
+<td style="text-align:left;">
+8 (5.2%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black
+</td>
+<td style="text-align:left;">
+27 (15.5%)
+</td>
+<td style="text-align:left;">
+27 (17.4%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic
+</td>
+<td style="text-align:left;">
+12 (6.9%)
+</td>
+<td style="text-align:left;">
+10 (6.5%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other/Multi
+</td>
+<td style="text-align:left;">
+13 (7.5%)
+</td>
+<td style="text-align:left;">
+18 (11.6%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:left;">
+95 (54.6%)
+</td>
+<td style="text-align:left;">
+85 (54.8%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+1 (0.6%)
+</td>
+<td style="text-align:left;">
+1 (0.6%)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>chisq.test(clean_data$race_collapsed, clean_data$condition)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  clean_data$race_collapsed and clean_data$condition
+## X-squared = 4.5872, df = 5, p-value = 0.4683</code></pre>
+<pre class="r"><code># Sexual orientation
+clean_data$orientation_collapsed &lt;- case_when(
+  clean_data$orientation == &quot;1&quot; ~ &quot;Straight&quot;,
+  clean_data$orientation %in% c(&quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;) ~ &quot;LGBQ+&quot;,
+  clean_data$orientation %in% c(&quot;8&quot;, &quot;9&quot;, &quot;10&quot;) ~ NA_character_
+)
+
+my_count(orientation_collapsed)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+orientation_collapsed
+</th>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+LGBQ+
+</td>
+<td style="text-align:left;">
+97 (55.7%)
+</td>
+<td style="text-align:left;">
+86 (55.5%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Straight
+</td>
+<td style="text-align:left;">
+67 (38.5%)
+</td>
+<td style="text-align:left;">
+58 (37.4%)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+10 (5.7%)
+</td>
+<td style="text-align:left;">
+11 (7.1%)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>chisq.test(clean_data$orientation_collapsed, clean_data$condition)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  clean_data$orientation_collapsed and clean_data$condition
+## X-squared = 0, df = 1, p-value = 1</code></pre>
+<pre class="r"><code>## Outcomes
+# PHQ
+my_mean_sd(b_phq_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1.59 (0.56)
+</td>
+<td style="text-align:left;">
+1.58 (0.62)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_phq_mean ~ condition&quot;, all_participants)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df     p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b_phq_mean by condition         1.58           1.58   -0.0656  314. 0.948</code></pre>
+<pre class="r"><code># GAD
+my_mean_sd(b_gad_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1.65 (0.67)
+</td>
+<td style="text-align:left;">
+1.61 (0.71)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_gad_mean ~ condition&quot;, all_participants)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df     p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b_gad_mean by condition         1.61           1.65    -0.571  317. 0.569</code></pre>
+<pre class="r"><code># RKQ
+my_mean_sd(b_rkq_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+4.12 (0.95)
+</td>
+<td style="text-align:left;">
+4.15 (0.95)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_rkq_mean ~ condition&quot;, all_participants)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df     p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b_rkq_mean by condition         4.15           4.12     0.209  323. 0.835</code></pre>
+<pre class="r"><code># RDM
+my_mean_sd(b_rdm_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+3.39 (0.55)
+</td>
+<td style="text-align:left;">
+3.45 (0.56)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_rdm_mean ~ condition&quot;, all_participants)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df     p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b_rdm_mean by condition         3.45           3.39     0.928  322. 0.354</code></pre>
+<pre class="r"><code># BHS
+my_mean_sd(b_bhs_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1.57 (0.76)
+</td>
+<td style="text-align:left;">
+1.35 (0.8)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_bhs_mean ~ condition&quot;, all_participants)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df      p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 b_bhs_mean by condition         1.35           1.57     -2.55  318. 0.0111</code></pre>
+<pre class="r"><code># ECR
+my_mean_sd(b_ecr_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+4.43 (0.95)
+</td>
+<td style="text-align:left;">
+4.38 (0.97)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_ecr_mean ~ condition&quot;, all_participants)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df     p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b_ecr_mean by condition         4.38           4.43    -0.452  321. 0.651</code></pre>
+<pre class="r"><code># IRI
+my_mean_sd(b_iri_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2.35 (0.44)
+</td>
+<td style="text-align:left;">
+2.28 (0.45)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_iri_mean ~ condition&quot;, in_relationship)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df     p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b_iri_mean by condition         2.28           2.37     -1.17  148. 0.243</code></pre>
+<pre class="r"><code># CSI
+my_mean_sd(b_csi_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+3.69 (0.95)
+</td>
+<td style="text-align:left;">
+3.61 (1.04)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_csi_mean ~ condition&quot;, in_relationship)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df     p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b_csi_mean by condition         3.70           3.75    -0.335  151. 0.738</code></pre>
+<pre class="r"><code># ULS
+my_mean_sd(b_uls_mean)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Intervention
+</th>
+<th style="text-align:left;">
+Control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2.82 (0.74)
+</td>
+<td style="text-align:left;">
+2.79 (0.72)
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>my_t_test(&quot;b_uls_mean ~ condition&quot;, all_participants)</code></pre>
+<pre><code>## # A tibble: 1 x 6
+##   name                    control_mean treatment_mean statistic    df     p
+##   &lt;chr&gt;                          &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 b_uls_mean by condition         2.79           2.82    -0.431  324. 0.667</code></pre>
 </div>
-<div id="tests-of-outcomes" class="section level1">
-<h1>Tests of Outcomes</h1>
-<div id="treatment-vs-control" class="section level2">
-<h2>Treatment vs Control</h2>
+<div id="treatment-effects" class="section level1">
+<h1>Treatment Effects</h1>
 <pre class="r"><code># Post-intervention
 r_rel_learn_pi &lt;- my_regression(&quot;pi_rel_learn_mean ~ condition&quot;, all_participants)
 r_rel_satisfaction_pi &lt;- my_regression(&quot;pi_rel_satisfaction_mean ~ condition&quot;, all_participants)
@@ -828,10 +2131,10 @@ r_gad &lt;- my_regression(&quot;f_gad_mean ~ b_gad_mean + condition&quot;, all_p
 r_rkq &lt;- my_regression(&quot;f_rkq_mean ~ b_rkq_mean + condition&quot;, all_participants)
 r_rdm &lt;- my_regression(&quot;f_rdm_mean ~ b_rdm_mean + condition&quot;, all_participants)
 r_bhs &lt;- my_regression(&quot;f_bhs_mean ~ b_bhs_mean + condition&quot;, all_participants)
-r_ecr &lt;- my_regression(&quot;f_ecr_mean ~ b_ecr_mean + condition&quot;, all_participants)
 r_iri &lt;- my_regression(&quot;f_iri_mean ~ b_iri_mean + condition&quot;, in_relationship)
 r_csi &lt;- my_regression(&quot;f_csi_mean ~ b_csi_mean + condition&quot;, in_relationship)
-r_lonely &lt;- my_regression(&quot;f_lonely_mean ~ b_lonely_mean + condition&quot;, all_participants)
+r_uls &lt;- my_regression(&quot;f_uls_mean ~ b_uls_mean + condition&quot;, all_participants)
+r_rel_attending &lt;- my_regression(&quot;f_rel_attending_mean ~ condition&quot;, all_participants)
 
 regressions &lt;- bind_rows(
   r_rel_learn_pi,
@@ -843,15 +2146,18 @@ regressions &lt;- bind_rows(
   r_rkq,
   r_rdm,
   r_bhs,
-  r_ecr,
   r_iri,
   r_csi,
-  r_lonely
+  r_uls,
+  r_rel_attending
 )
 
 regressions %&gt;%
   filter(term == &quot;conditionIntervention&quot;) %&gt;%
-  mutate(p.adj = p.adjust(p.value, &quot;BH&quot;)) %&gt;%
+  mutate(
+    estimate = round(estimate, 2),
+    p.adj = p.adjust(p.value, &quot;BH&quot;)
+  ) %&gt;%
   select(
     dv,
     iv = term,
@@ -889,13 +2195,13 @@ pi_rel_learn_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.201
+0.20
 </td>
 <td style="text-align:right;">
-0.032
+0.029
 </td>
 <td style="text-align:right;">
-0.206
+0.187
 </td>
 </tr>
 <tr>
@@ -906,13 +2212,13 @@ pi_rel_satisfaction_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.057
+0.06
 </td>
 <td style="text-align:right;">
-0.471
+0.490
 </td>
 <td style="text-align:right;">
-0.961
+0.996
 </td>
 </tr>
 <tr>
@@ -923,13 +2229,13 @@ pi_pfs_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.180
+0.17
 </td>
 <td style="text-align:right;">
-0.002
+0.003
 </td>
 <td style="text-align:right;">
-0.021
+0.035
 </td>
 </tr>
 <tr>
@@ -940,13 +2246,13 @@ pi_bhs_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
--0.027
+-0.03
 </td>
 <td style="text-align:right;">
-0.678
+0.603
 </td>
 <td style="text-align:right;">
-0.961
+0.996
 </td>
 </tr>
 <tr>
@@ -957,13 +2263,13 @@ f_phq_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.020
+0.02
 </td>
 <td style="text-align:right;">
-0.790
+0.804
 </td>
 <td style="text-align:right;">
-0.961
+0.996
 </td>
 </tr>
 <tr>
@@ -974,13 +2280,13 @@ f_gad_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.097
+0.08
 </td>
 <td style="text-align:right;">
-0.251
+0.296
 </td>
 <td style="text-align:right;">
-0.961
+0.903
 </td>
 </tr>
 <tr>
@@ -991,13 +2297,13 @@ f_rkq_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
--0.073
+-0.07
 </td>
 <td style="text-align:right;">
-0.365
+0.345
 </td>
 <td style="text-align:right;">
-0.961
+0.903
 </td>
 </tr>
 <tr>
@@ -1008,13 +2314,13 @@ f_rdm_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
--0.019
+0.00
 </td>
 <td style="text-align:right;">
-0.727
+0.996
 </td>
 <td style="text-align:right;">
-0.961
+0.996
 </td>
 </tr>
 <tr>
@@ -1025,30 +2331,13 @@ f_bhs_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.008
+0.00
 </td>
 <td style="text-align:right;">
-0.928
+0.970
 </td>
 <td style="text-align:right;">
-0.998
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_ecr_mean
-</td>
-<td style="text-align:left;">
-conditionIntervention
-</td>
-<td style="text-align:right;">
-0.020
-</td>
-<td style="text-align:right;">
-0.813
-</td>
-<td style="text-align:right;">
-0.961
+0.996
 </td>
 </tr>
 <tr>
@@ -1059,13 +2348,13 @@ f_iri_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.000
+-0.01
 </td>
 <td style="text-align:right;">
-0.998
+0.931
 </td>
 <td style="text-align:right;">
-0.998
+0.996
 </td>
 </tr>
 <tr>
@@ -1076,37 +2365,303 @@ f_csi_mean
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.036
+0.01
 </td>
 <td style="text-align:right;">
-0.795
+0.943
 </td>
 <td style="text-align:right;">
-0.961
+0.996
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-f_lonely_mean
+f_uls_mean
 </td>
 <td style="text-align:left;">
 conditionIntervention
 </td>
 <td style="text-align:right;">
-0.051
+0.09
 </td>
 <td style="text-align:right;">
-0.543
+0.347
 </td>
 <td style="text-align:right;">
-0.961
+0.903
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_rel_attending_mean
+</td>
+<td style="text-align:left;">
+conditionIntervention
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+<td style="text-align:right;">
+0.871
+</td>
+<td style="text-align:right;">
+0.996
 </td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="module-vs-control" class="section level2">
-<h2>Module vs Control</h2>
+<div id="within-group-change" class="section level1">
+<h1>Within-Group Change</h1>
+<pre class="r"><code># Intervention group
+d_bhs_pi_i &lt;- my_effect_size(&quot;b_bhs_mean&quot;, &quot;pi_bhs_mean&quot;, intervention_only) 
+d_phq_i &lt;- my_effect_size(&quot;b_phq_mean&quot;, &quot;f_phq_mean&quot;, intervention_only)
+d_gad_i &lt;- my_effect_size(&quot;b_gad_mean&quot;, &quot;f_gad_mean&quot;, intervention_only)
+d_rkq_i &lt;- my_effect_size(&quot;b_rkq_mean&quot;, &quot;f_rkq_mean&quot;, intervention_only)
+d_rdm_i &lt;- my_effect_size(&quot;b_rdm_mean&quot;, &quot;f_rdm_mean&quot;, intervention_only) 
+d_bhs_i &lt;- my_effect_size(&quot;b_bhs_mean&quot;, &quot;f_bhs_mean&quot;, intervention_only) 
+d_ecr_i &lt;- my_effect_size(&quot;b_ecr_mean&quot;, &quot;f_ecr_mean&quot;, intervention_only) 
+d_iri_i &lt;- my_effect_size(&quot;b_iri_mean&quot;, &quot;f_iri_mean&quot;, intersect(intervention_only, in_relationship))
+d_csi_i &lt;- my_effect_size(&quot;b_csi_mean&quot;, &quot;f_csi_mean&quot;, intersect(intervention_only, in_relationship))
+d_uls_i &lt;- my_effect_size(&quot;b_uls_mean&quot;, &quot;f_uls_mean&quot;, intervention_only)
+
+d_i &lt;- bind_rows(
+  d_bhs_pi_i,
+  d_phq_i,
+  d_gad_i,
+  d_rkq_i,
+  d_rdm_i,
+  d_bhs_i,
+  d_iri_i,
+  d_csi_i,
+  d_uls_i
+) %&gt;%
+  mutate(group = &quot;intervention&quot;)
+
+# Control group
+d_bhs_pi_c &lt;- my_effect_size(&quot;b_bhs_mean&quot;, &quot;pi_bhs_mean&quot;, control_only) 
+d_phq_c &lt;- my_effect_size(&quot;b_phq_mean&quot;, &quot;f_phq_mean&quot;, control_only)
+d_gad_c &lt;- my_effect_size(&quot;b_gad_mean&quot;, &quot;f_gad_mean&quot;, control_only)
+d_rkq_c &lt;- my_effect_size(&quot;b_rkq_mean&quot;, &quot;f_rkq_mean&quot;, control_only)
+d_rdm_c &lt;- my_effect_size(&quot;b_rdm_mean&quot;, &quot;f_rdm_mean&quot;, control_only) 
+d_bhs_c &lt;- my_effect_size(&quot;b_bhs_mean&quot;, &quot;f_bhs_mean&quot;, control_only) 
+d_iri_c &lt;- my_effect_size(&quot;b_iri_mean&quot;, &quot;f_iri_mean&quot;, intersect(control_only, in_relationship))
+d_csi_c &lt;- my_effect_size(&quot;b_csi_mean&quot;, &quot;f_csi_mean&quot;, intersect(control_only, in_relationship))
+d_uls_c &lt;- my_effect_size(&quot;b_uls_mean&quot;, &quot;f_uls_mean&quot;, control_only)
+
+d_c &lt;- bind_rows(
+  d_bhs_pi_c,
+  d_phq_c,
+  d_gad_c,
+  d_rkq_c,
+  d_rdm_c,
+  d_bhs_c,
+  d_iri_c,
+  d_csi_c,
+  d_uls_c
+) %&gt;%
+  mutate(group = &quot;control&quot;)
+
+# Combined
+d_i %&gt;%
+  bind_rows(d_c) %&gt;%
+  mutate(output = round(d, 2) %+% &quot; (&quot; %+% round(lower, 2) %+% &quot;, &quot; %+% round(upper, 2) %+% &quot;)&quot;) %&gt;%
+  pivot_wider(
+    id_cols = c(&quot;pre&quot;, &quot;post&quot;),
+    names_from = &quot;group&quot;,
+    values_from = &quot;output&quot;
+  ) %&gt;%
+  my_print()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+pre
+</th>
+<th style="text-align:left;">
+post
+</th>
+<th style="text-align:left;">
+intervention
+</th>
+<th style="text-align:left;">
+control
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+b_bhs_mean
+</td>
+<td style="text-align:left;">
+pi_bhs_mean
+</td>
+<td style="text-align:left;">
+-0.54 (-0.7, -0.38)
+</td>
+<td style="text-align:left;">
+-0.42 (-0.58, -0.26)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b_phq_mean
+</td>
+<td style="text-align:left;">
+f_phq_mean
+</td>
+<td style="text-align:left;">
+-0.65 (-0.81, -0.48)
+</td>
+<td style="text-align:left;">
+-0.67 (-0.84, -0.49)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b_gad_mean
+</td>
+<td style="text-align:left;">
+f_gad_mean
+</td>
+<td style="text-align:left;">
+-0.45 (-0.6, -0.29)
+</td>
+<td style="text-align:left;">
+-0.53 (-0.7, -0.36)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b_rkq_mean
+</td>
+<td style="text-align:left;">
+f_rkq_mean
+</td>
+<td style="text-align:left;">
+0.19 (0.04, 0.34)
+</td>
+<td style="text-align:left;">
+0.25 (0.09, 0.4)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b_rdm_mean
+</td>
+<td style="text-align:left;">
+f_rdm_mean
+</td>
+<td style="text-align:left;">
+0.5 (0.34, 0.65)
+</td>
+<td style="text-align:left;">
+0.45 (0.29, 0.62)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b_bhs_mean
+</td>
+<td style="text-align:left;">
+f_bhs_mean
+</td>
+<td style="text-align:left;">
+-0.47 (-0.62, -0.31)
+</td>
+<td style="text-align:left;">
+-0.31 (-0.48, -0.15)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b_iri_mean
+</td>
+<td style="text-align:left;">
+f_iri_mean
+</td>
+<td style="text-align:left;">
+0.62 (0.39, 0.85)
+</td>
+<td style="text-align:left;">
+0.65 (0.39, 0.9)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b_csi_mean
+</td>
+<td style="text-align:left;">
+f_csi_mean
+</td>
+<td style="text-align:left;">
+0.29 (0.07, 0.51)
+</td>
+<td style="text-align:left;">
+0.3 (0.06, 0.53)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+b_uls_mean
+</td>
+<td style="text-align:left;">
+f_uls_mean
+</td>
+<td style="text-align:left;">
+-1.55 (-1.77, -1.33)
+</td>
+<td style="text-align:left;">
+-1.68 (-1.93, -1.44)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="figure-1" class="section level1">
+<h1>Figure 1</h1>
+<pre class="r"><code>clean_data %&gt;%
+  select(
+    condition,
+    matches(&quot;b_.*_mean&quot;),
+    matches(&quot;pi_.*_mean&quot;),
+    matches(&quot;f_.*_mean&quot;),
+    -matches(&quot;_rel_&quot;),
+    -matches(&quot;_ecr_&quot;),
+    -pi_pfs_mean
+  ) %&gt;%
+  pivot_longer(
+    -condition
+  ) %&gt;%
+  group_by(condition, name) %&gt;%
+  summarize(
+    mean = mean(value, na.rm = T),
+    se = sd(value, na.rm = T) / sqrt(n())
+  ) %&gt;%
+  mutate(
+    timepoint = toupper(str_extract(name, &quot;^[^_]+(?=_)&quot;)) %&gt;%
+      factor(levels = c(&quot;B&quot;, &quot;PI&quot;, &quot;F&quot;)),
+    variable = toupper(str_extract(name, &quot;(?&lt;=_).*(?=_)&quot;)),
+    lower = mean - (1.96 * se),
+    upper = mean + (1.96 * se)
+  ) %&gt;%
+  ggplot(
+    aes(timepoint, mean, group = condition, color = condition)
+  ) +
+  geom_line() +
+  geom_errorbar(aes(ymax = upper, ymin = lower)) +
+  facet_wrap(~ variable, scales = &quot;free&quot;) +
+  scale_y_continuous(name = &quot;Mean&quot;) +
+  scale_x_discrete(name = &quot;Timepoint&quot;) +
+  scale_color_discrete(name = &quot;Condition&quot;) +
+  theme_classic()</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;condition&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<p><img src="data:image/png;base64,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" width="672" /></p>
+</div>
+<div id="appendix-a.-modules-vs-control" class="section level1">
+<h1>Appendix A. Modules vs Control</h1>
 <pre class="r"><code># Post-intervention
 r_rel_learn_pi &lt;- my_regression(&quot;pi_rel_learn_mean ~ condition_detailed&quot;, all_participants)
 r_rel_satisfaction_pi &lt;- my_regression(&quot;pi_rel_satisfaction_mean ~ condition_detailed&quot;, all_participants)
@@ -1122,7 +2677,7 @@ r_bhs &lt;- my_regression(&quot;f_bhs_mean ~ b_bhs_mean + condition_detailed&quo
 r_ecr &lt;- my_regression(&quot;f_ecr_mean ~ b_ecr_mean + condition_detailed&quot;, all_participants)
 r_iri &lt;- my_regression(&quot;f_iri_mean ~ b_iri_mean + condition_detailed&quot;, in_relationship)
 r_csi &lt;- my_regression(&quot;f_csi_mean ~ b_csi_mean + condition_detailed&quot;, in_relationship)
-r_lonely &lt;- my_regression(&quot;f_lonely_mean ~ b_lonely_mean + condition_detailed&quot;, all_participants)
+r_uls &lt;- my_regression(&quot;f_uls_mean ~ b_uls_mean + condition_detailed&quot;, all_participants)
 
 regressions &lt;- bind_rows(
   r_rel_learn_pi,
@@ -1137,7 +2692,7 @@ regressions &lt;- bind_rows(
   r_ecr,
   r_iri,
   r_csi,
-  r_lonely
+  r_uls
 )
 
 regressions %&gt;%
@@ -1189,7 +2744,7 @@ Communication Module
 0.009
 </td>
 <td style="text-align:right;">
-0.202
+0.259
 </td>
 </tr>
 <tr>
@@ -1200,13 +2755,13 @@ pi_rel_learn_mean
 Insight Module
 </td>
 <td style="text-align:right;">
-0.029
+0.038
 </td>
 <td style="text-align:right;">
-0.812
+0.752
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1223,7 +2778,7 @@ Stay or Go Module
 0.043
 </td>
 <td style="text-align:right;">
-0.366
+0.332
 </td>
 </tr>
 <tr>
@@ -1234,13 +2789,13 @@ pi_rel_satisfaction_mean
 Communication Module
 </td>
 <td style="text-align:right;">
-0.141
+0.143
 </td>
 <td style="text-align:right;">
-0.182
+0.179
 </td>
 <td style="text-align:right;">
-0.888
+0.845
 </td>
 </tr>
 <tr>
@@ -1251,13 +2806,13 @@ pi_rel_satisfaction_mean
 Insight Module
 </td>
 <td style="text-align:right;">
--0.054
+-0.062
 </td>
 <td style="text-align:right;">
-0.604
+0.553
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1268,13 +2823,13 @@ pi_rel_satisfaction_mean
 Stay or Go Module
 </td>
 <td style="text-align:right;">
-0.122
+0.124
 </td>
 <td style="text-align:right;">
-0.352
+0.347
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1285,13 +2840,13 @@ pi_pfs_mean
 Communication Module
 </td>
 <td style="text-align:right;">
-0.150
+0.142
 </td>
 <td style="text-align:right;">
-0.047
+0.066
 </td>
 <td style="text-align:right;">
-0.366
+0.431
 </td>
 </tr>
 <tr>
@@ -1302,13 +2857,13 @@ pi_pfs_mean
 Insight Module
 </td>
 <td style="text-align:right;">
-0.179
+0.170
 </td>
 <td style="text-align:right;">
-0.016
+0.023
 </td>
 <td style="text-align:right;">
-0.202
+0.300
 </td>
 </tr>
 <tr>
@@ -1325,7 +2880,7 @@ Stay or Go Module
 0.013
 </td>
 <td style="text-align:right;">
-0.202
+0.259
 </td>
 </tr>
 <tr>
@@ -1336,13 +2891,13 @@ pi_bhs_mean
 Communication Module
 </td>
 <td style="text-align:right;">
--0.060
+-0.065
 </td>
 <td style="text-align:right;">
-0.484
+0.458
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1353,13 +2908,13 @@ pi_bhs_mean
 Insight Module
 </td>
 <td style="text-align:right;">
-0.021
+0.010
 </td>
 <td style="text-align:right;">
-0.800
+0.908
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1370,120 +2925,18 @@ pi_bhs_mean
 Stay or Go Module
 </td>
 <td style="text-align:right;">
--0.061
+-0.065
 </td>
 <td style="text-align:right;">
-0.568
+0.545
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 f_phq_mean
-</td>
-<td style="text-align:left;">
-Communication Module
-</td>
-<td style="text-align:right;">
-0.012
-</td>
-<td style="text-align:right;">
-0.901
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_phq_mean
-</td>
-<td style="text-align:left;">
-Insight Module
-</td>
-<td style="text-align:right;">
-0.020
-</td>
-<td style="text-align:right;">
-0.829
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_phq_mean
-</td>
-<td style="text-align:left;">
-Stay or Go Module
-</td>
-<td style="text-align:right;">
-0.031
-</td>
-<td style="text-align:right;">
-0.793
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_gad_mean
-</td>
-<td style="text-align:left;">
-Communication Module
-</td>
-<td style="text-align:right;">
-0.063
-</td>
-<td style="text-align:right;">
-0.578
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_gad_mean
-</td>
-<td style="text-align:left;">
-Insight Module
-</td>
-<td style="text-align:right;">
-0.117
-</td>
-<td style="text-align:right;">
-0.285
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_gad_mean
-</td>
-<td style="text-align:left;">
-Stay or Go Module
-</td>
-<td style="text-align:right;">
-0.117
-</td>
-<td style="text-align:right;">
-0.394
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_rkq_mean
 </td>
 <td style="text-align:left;">
 Communication Module
@@ -1492,10 +2945,112 @@ Communication Module
 0.011
 </td>
 <td style="text-align:right;">
-0.920
+0.905
 </td>
 <td style="text-align:right;">
-0.944
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_phq_mean
+</td>
+<td style="text-align:left;">
+Insight Module
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:right;">
+0.927
+</td>
+<td style="text-align:right;">
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_phq_mean
+</td>
+<td style="text-align:left;">
+Stay or Go Module
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+0.696
+</td>
+<td style="text-align:right;">
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_gad_mean
+</td>
+<td style="text-align:left;">
+Communication Module
+</td>
+<td style="text-align:right;">
+0.050
+</td>
+<td style="text-align:right;">
+0.640
+</td>
+<td style="text-align:right;">
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_gad_mean
+</td>
+<td style="text-align:left;">
+Insight Module
+</td>
+<td style="text-align:right;">
+0.102
+</td>
+<td style="text-align:right;">
+0.328
+</td>
+<td style="text-align:right;">
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_gad_mean
+</td>
+<td style="text-align:left;">
+Stay or Go Module
+</td>
+<td style="text-align:right;">
+0.107
+</td>
+<td style="text-align:right;">
+0.423
+</td>
+<td style="text-align:right;">
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_rkq_mean
+</td>
+<td style="text-align:left;">
+Communication Module
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+0.696
+</td>
+<td style="text-align:right;">
+0.947
 </td>
 </tr>
 <tr>
@@ -1506,13 +3061,13 @@ f_rkq_mean
 Insight Module
 </td>
 <td style="text-align:right;">
--0.144
+-0.160
 </td>
 <td style="text-align:right;">
-0.171
+0.122
 </td>
 <td style="text-align:right;">
-0.888
+0.677
 </td>
 </tr>
 <tr>
@@ -1523,13 +3078,13 @@ f_rkq_mean
 Stay or Go Module
 </td>
 <td style="text-align:right;">
--0.086
+-0.109
 </td>
 <td style="text-align:right;">
-0.512
+0.392
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1540,13 +3095,13 @@ f_rdm_mean
 Communication Module
 </td>
 <td style="text-align:right;">
-0.085
+0.009
 </td>
 <td style="text-align:right;">
-0.218
+0.904
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1557,13 +3112,13 @@ f_rdm_mean
 Insight Module
 </td>
 <td style="text-align:right;">
--0.135
+-0.017
 </td>
 <td style="text-align:right;">
-0.056
+0.810
 </td>
 <td style="text-align:right;">
-0.366
+0.947
 </td>
 </tr>
 <tr>
@@ -1577,10 +3132,10 @@ Stay or Go Module
 0.016
 </td>
 <td style="text-align:right;">
-0.860
+0.859
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1591,13 +3146,13 @@ f_bhs_mean
 Communication Module
 </td>
 <td style="text-align:right;">
--0.020
+-0.009
 </td>
 <td style="text-align:right;">
-0.874
+0.942
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1608,13 +3163,13 @@ f_bhs_mean
 Insight Module
 </td>
 <td style="text-align:right;">
--0.016
+-0.049
 </td>
 <td style="text-align:right;">
-0.895
+0.703
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1625,13 +3180,13 @@ f_bhs_mean
 Stay or Go Module
 </td>
 <td style="text-align:right;">
-0.106
+0.094
 </td>
 <td style="text-align:right;">
-0.474
+0.531
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1642,13 +3197,13 @@ f_ecr_mean
 Communication Module
 </td>
 <td style="text-align:right;">
-0.047
+0.284
 </td>
 <td style="text-align:right;">
-0.681
+0.040
 </td>
 <td style="text-align:right;">
-0.944
+0.332
 </td>
 </tr>
 <tr>
@@ -1659,13 +3214,13 @@ f_ecr_mean
 Insight Module
 </td>
 <td style="text-align:right;">
--0.035
+0.199
 </td>
 <td style="text-align:right;">
-0.746
+0.195
 </td>
 <td style="text-align:right;">
-0.944
+0.845
 </td>
 </tr>
 <tr>
@@ -1676,13 +3231,13 @@ f_ecr_mean
 Stay or Go Module
 </td>
 <td style="text-align:right;">
-0.080
+0.096
 </td>
 <td style="text-align:right;">
-0.563
+0.584
 </td>
 <td style="text-align:right;">
-0.944
+0.947
 </td>
 </tr>
 <tr>
@@ -1691,511 +3246,155 @@ f_iri_mean
 </td>
 <td style="text-align:left;">
 Communication Module
-</td>
-<td style="text-align:right;">
-0.027
-</td>
-<td style="text-align:right;">
-0.849
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_iri_mean
-</td>
-<td style="text-align:left;">
-Insight Module
-</td>
-<td style="text-align:right;">
--0.030
-</td>
-<td style="text-align:right;">
-0.838
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_iri_mean
-</td>
-<td style="text-align:left;">
-Stay or Go Module
-</td>
-<td style="text-align:right;">
--0.002
-</td>
-<td style="text-align:right;">
-0.992
-</td>
-<td style="text-align:right;">
-0.992
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_csi_mean
-</td>
-<td style="text-align:left;">
-Communication Module
-</td>
-<td style="text-align:right;">
-0.089
-</td>
-<td style="text-align:right;">
-0.623
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_csi_mean
-</td>
-<td style="text-align:left;">
-Insight Module
-</td>
-<td style="text-align:right;">
-0.020
-</td>
-<td style="text-align:right;">
-0.915
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_csi_mean
-</td>
-<td style="text-align:left;">
-Stay or Go Module
-</td>
-<td style="text-align:right;">
--0.035
-</td>
-<td style="text-align:right;">
-0.878
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_lonely_mean
-</td>
-<td style="text-align:left;">
-Communication Module
-</td>
-<td style="text-align:right;">
-0.028
-</td>
-<td style="text-align:right;">
-0.798
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_lonely_mean
-</td>
-<td style="text-align:left;">
-Insight Module
-</td>
-<td style="text-align:right;">
-0.089
-</td>
-<td style="text-align:right;">
-0.413
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-f_lonely_mean
-</td>
-<td style="text-align:left;">
-Stay or Go Module
-</td>
-<td style="text-align:right;">
-0.018
-</td>
-<td style="text-align:right;">
-0.896
-</td>
-<td style="text-align:right;">
-0.944
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="within-group-effects" class="section level2">
-<h2>Within-Group Effects</h2>
-<pre class="r"><code>d_bhs_pi &lt;- my_effect_size(&quot;b_bhs_mean&quot;, &quot;pi_bhs_mean&quot;, intervention_only) 
-d_phq &lt;- my_effect_size(&quot;b_phq_mean&quot;, &quot;f_phq_mean&quot;, intervention_only)
-d_gad &lt;- my_effect_size(&quot;b_gad_mean&quot;, &quot;f_gad_mean&quot;, intervention_only)
-d_rkq &lt;- my_effect_size(&quot;b_rkq_mean&quot;, &quot;f_rkq_mean&quot;, intervention_only)
-d_rdm &lt;- my_effect_size(&quot;b_rdm_mean&quot;, &quot;f_rdm_mean&quot;, intervention_only) 
-d_bhs &lt;- my_effect_size(&quot;b_bhs_mean&quot;, &quot;f_bhs_mean&quot;, intervention_only) 
-d_ecr &lt;- my_effect_size(&quot;b_ecr_mean&quot;, &quot;f_ecr_mean&quot;, intervention_only) 
-d_iri &lt;- my_effect_size(&quot;b_iri_mean&quot;, &quot;f_iri_mean&quot;, intersect(intervention_only, in_relationship))
-d_csi &lt;- my_effect_size(&quot;b_csi_mean&quot;, &quot;f_csi_mean&quot;, intersect(intervention_only, in_relationship))
-d_lonely &lt;- my_effect_size(&quot;b_lonely_mean&quot;, &quot;f_lonely_mean&quot;, intervention_only)
-
-standardized_differences &lt;- bind_rows(
-  d_bhs_pi,
-  d_phq,
-  d_gad,
-  d_rkq,
-  d_rdm,
-  d_bhs,
-  d_ecr,
-  d_iri,
-  d_csi,
-  d_lonely
-)
-
-standardized_differences %&gt;%
-  select(pre, post, pre_mean, pre_sd, post_mean, post_sd, d, lower, upper) %&gt;%
-  my_print()</code></pre>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-pre
-</th>
-<th style="text-align:left;">
-post
-</th>
-<th style="text-align:right;">
-pre_mean
-</th>
-<th style="text-align:right;">
-pre_sd
-</th>
-<th style="text-align:right;">
-post_mean
-</th>
-<th style="text-align:right;">
-post_sd
-</th>
-<th style="text-align:right;">
-d
-</th>
-<th style="text-align:right;">
-lower
-</th>
-<th style="text-align:right;">
-upper
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-b_bhs_mean
-</td>
-<td style="text-align:left;">
-pi_bhs_mean
-</td>
-<td style="text-align:right;">
-1.569
-</td>
-<td style="text-align:right;">
-0.759
-</td>
-<td style="text-align:right;">
-1.141
-</td>
-<td style="text-align:right;">
-0.825
-</td>
-<td style="text-align:right;">
--0.541
-</td>
-<td style="text-align:right;">
--0.699
-</td>
-<td style="text-align:right;">
--0.381
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_phq_mean
-</td>
-<td style="text-align:left;">
-f_phq_mean
-</td>
-<td style="text-align:right;">
-1.579
-</td>
-<td style="text-align:right;">
-0.576
-</td>
-<td style="text-align:right;">
-1.154
-</td>
-<td style="text-align:right;">
-0.711
-</td>
-<td style="text-align:right;">
--0.660
-</td>
-<td style="text-align:right;">
--0.823
-</td>
-<td style="text-align:right;">
--0.495
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_gad_mean
-</td>
-<td style="text-align:left;">
-f_gad_mean
-</td>
-<td style="text-align:right;">
-1.650
-</td>
-<td style="text-align:right;">
-0.673
-</td>
-<td style="text-align:right;">
-1.297
-</td>
-<td style="text-align:right;">
-0.842
-</td>
-<td style="text-align:right;">
--0.466
-</td>
-<td style="text-align:right;">
--0.622
-</td>
-<td style="text-align:right;">
--0.309
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_rkq_mean
-</td>
-<td style="text-align:left;">
-f_rkq_mean
-</td>
-<td style="text-align:right;">
-4.123
-</td>
-<td style="text-align:right;">
-0.953
-</td>
-<td style="text-align:right;">
-4.269
-</td>
-<td style="text-align:right;">
-0.870
-</td>
-<td style="text-align:right;">
-0.160
 </td>
 <td style="text-align:right;">
 0.010
 </td>
 <td style="text-align:right;">
-0.309
+0.947
+</td>
+<td style="text-align:right;">
+0.947
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-b_rdm_mean
+f_iri_mean
 </td>
 <td style="text-align:left;">
-f_rdm_mean
+Insight Module
 </td>
 <td style="text-align:right;">
-3.289
-</td>
-<td style="text-align:right;">
-0.595
-</td>
-<td style="text-align:right;">
-3.594
-</td>
-<td style="text-align:right;">
-0.551
-</td>
-<td style="text-align:right;">
-0.533
-</td>
-<td style="text-align:right;">
-0.373
-</td>
-<td style="text-align:right;">
-0.691
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_bhs_mean
-</td>
-<td style="text-align:left;">
-f_bhs_mean
-</td>
-<td style="text-align:right;">
-1.569
-</td>
-<td style="text-align:right;">
-0.759
-</td>
-<td style="text-align:right;">
-1.142
+-0.023
 </td>
 <td style="text-align:right;">
 0.877
 </td>
 <td style="text-align:right;">
--0.522
-</td>
-<td style="text-align:right;">
--0.680
-</td>
-<td style="text-align:right;">
--0.363
+0.947
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-b_ecr_mean
-</td>
-<td style="text-align:left;">
-f_ecr_mean
-</td>
-<td style="text-align:right;">
-5.027
-</td>
-<td style="text-align:right;">
-0.831
-</td>
-<td style="text-align:right;">
-5.012
-</td>
-<td style="text-align:right;">
-0.787
-</td>
-<td style="text-align:right;">
--0.019
-</td>
-<td style="text-align:right;">
--0.168
-</td>
-<td style="text-align:right;">
-0.130
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_iri_mean
-</td>
 <td style="text-align:left;">
 f_iri_mean
 </td>
-<td style="text-align:right;">
-2.365
+<td style="text-align:left;">
+Stay or Go Module
 </td>
 <td style="text-align:right;">
-0.434
+-0.023
 </td>
 <td style="text-align:right;">
-2.710
+0.903
 </td>
 <td style="text-align:right;">
-0.687
-</td>
-<td style="text-align:right;">
-0.616
-</td>
-<td style="text-align:right;">
-0.381
-</td>
-<td style="text-align:right;">
-0.848
+0.947
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-b_csi_mean
-</td>
 <td style="text-align:left;">
 f_csi_mean
 </td>
-<td style="text-align:right;">
-3.750
+<td style="text-align:left;">
+Communication Module
 </td>
 <td style="text-align:right;">
-0.986
+0.017
 </td>
 <td style="text-align:right;">
-4.110
+0.928
 </td>
 <td style="text-align:right;">
-0.907
-</td>
-<td style="text-align:right;">
-0.380
-</td>
-<td style="text-align:right;">
-0.158
-</td>
-<td style="text-align:right;">
-0.601
+0.947
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-b_lonely_mean
+f_csi_mean
 </td>
 <td style="text-align:left;">
-f_lonely_mean
+Insight Module
 </td>
 <td style="text-align:right;">
-2.822
+0.043
 </td>
 <td style="text-align:right;">
-0.737
+0.828
 </td>
 <td style="text-align:right;">
-1.596
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_csi_mean
+</td>
+<td style="text-align:left;">
+Stay or Go Module
 </td>
 <td style="text-align:right;">
-0.852
+-0.052
 </td>
 <td style="text-align:right;">
--1.544
+0.829
 </td>
 <td style="text-align:right;">
--1.763
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_uls_mean
+</td>
+<td style="text-align:left;">
+Communication Module
 </td>
 <td style="text-align:right;">
--1.323
+0.050
+</td>
+<td style="text-align:right;">
+0.689
+</td>
+<td style="text-align:right;">
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_uls_mean
+</td>
+<td style="text-align:left;">
+Insight Module
+</td>
+<td style="text-align:right;">
+0.139
+</td>
+<td style="text-align:right;">
+0.288
+</td>
+<td style="text-align:right;">
+0.947
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+f_uls_mean
+</td>
+<td style="text-align:left;">
+Stay or Go Module
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:right;">
+0.714
+</td>
+<td style="text-align:right;">
+0.947
 </td>
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 
 
