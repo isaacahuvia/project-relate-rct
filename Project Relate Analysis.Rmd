@@ -246,12 +246,12 @@ clean_data %>%
 
 # RKQ
 clean_data %>%
-  select("b_rkq_" %+% 1:21) %>%
+  select("b_rkq_" %+% 1:10) %>%
   alpha() %>%
   pluck("total")
 
 clean_data %>%
-  select("f_rkq_" %+% 1:21) %>%
+  select("f_rkq_" %+% 1:10) %>%
   alpha() %>%
   pluck("total")
 
@@ -293,14 +293,25 @@ clean_data %>%
   alpha() %>%
   pluck("total")
 
-# IRI
+# IRI: Empathic Concern
 clean_data %>%
-  select("b_iri_empcon_" %+% 1:13) %>%
+  select("b_iri_empcon_" %+% c(1, 2, 4, 6, 8, 9, 11)) %>%
   alpha() %>%
   pluck("total")
 
 clean_data %>%
-  select("f_iri_empcon_" %+% 1:13) %>%
+  select("f_iri_empcon_" %+% c(1, 2, 4, 6, 8, 9, 11)) %>%
+  alpha() %>%
+  pluck("total")
+
+# IRI: Perspective Taking
+clean_data %>%
+  select("b_iri_empcon_" %+% c(3, 5, 7, 10, 12, 13)) %>%
+  alpha() %>%
+  pluck("total")
+
+clean_data %>%
+  select("f_iri_empcon_" %+% c(3, 5, 7, 10, 12, 13)) %>%
   alpha() %>%
   pluck("total")
 
@@ -419,9 +430,13 @@ my_t_test("b_bhs_mean ~ condition", all_participants)
 my_mean_sd(b_ecr_mean)
 my_t_test("b_ecr_mean ~ condition", all_participants)
 
-# IRI
-my_mean_sd(b_iri_mean)
-my_t_test("b_iri_mean ~ condition", in_relationship)
+# IRI: Empathic Concern
+my_mean_sd(b_iri_emp_mean)
+my_t_test("b_iri_emp_mean ~ condition", in_relationship)
+
+# IRI: Perspective Taking
+my_mean_sd(b_iri_per_mean)
+my_t_test("b_iri_per_mean ~ condition", in_relationship)
 
 # CSI
 my_mean_sd(b_csi_mean)
@@ -447,7 +462,8 @@ r_gad <- my_regression("f_gad_mean ~ b_gad_mean + condition", all_participants)
 r_rkq <- my_regression("f_rkq_mean ~ b_rkq_mean + condition", all_participants)
 r_rdm <- my_regression("f_rdm_mean ~ b_rdm_mean + condition", all_participants)
 r_bhs <- my_regression("f_bhs_mean ~ b_bhs_mean + condition", all_participants)
-r_iri <- my_regression("f_iri_mean ~ b_iri_mean + condition", in_relationship)
+r_iri_emp <- my_regression("f_iri_emp_mean ~ b_iri_emp_mean + condition", in_relationship)
+r_iri_per <- my_regression("f_iri_per_mean ~ b_iri_per_mean + condition", in_relationship)
 r_csi <- my_regression("f_csi_mean ~ b_csi_mean + condition", in_relationship)
 r_uls <- my_regression("f_uls_mean ~ b_uls_mean + condition", all_participants)
 r_rel_attending <- my_regression("f_rel_attending_mean ~ condition", all_participants)
@@ -462,7 +478,8 @@ regressions <- bind_rows(
   r_rkq,
   r_rdm,
   r_bhs,
-  r_iri,
+  r_iri_emp,
+  r_iri_per,
   r_csi,
   r_uls,
   r_rel_attending
@@ -495,7 +512,8 @@ d_rkq_i <- my_effect_size("b_rkq_mean", "f_rkq_mean", intervention_only)
 d_rdm_i <- my_effect_size("b_rdm_mean", "f_rdm_mean", intervention_only) 
 d_bhs_i <- my_effect_size("b_bhs_mean", "f_bhs_mean", intervention_only) 
 d_ecr_i <- my_effect_size("b_ecr_mean", "f_ecr_mean", intervention_only) 
-d_iri_i <- my_effect_size("b_iri_mean", "f_iri_mean", intersect(intervention_only, in_relationship))
+d_iri_emp_i <- my_effect_size("b_iri_emp_mean", "f_iri_emp_mean", intersect(intervention_only, in_relationship))
+d_iri_per_i <- my_effect_size("b_iri_per_mean", "f_iri_per_mean", intersect(intervention_only, in_relationship))
 d_csi_i <- my_effect_size("b_csi_mean", "f_csi_mean", intersect(intervention_only, in_relationship))
 d_uls_i <- my_effect_size("b_uls_mean", "f_uls_mean", intervention_only)
 
@@ -506,7 +524,8 @@ d_i <- bind_rows(
   d_rkq_i,
   d_rdm_i,
   d_bhs_i,
-  d_iri_i,
+  d_iri_emp_i,
+  d_iri_per_i,
   d_csi_i,
   d_uls_i
 ) %>%
@@ -519,7 +538,8 @@ d_gad_c <- my_effect_size("b_gad_mean", "f_gad_mean", control_only)
 d_rkq_c <- my_effect_size("b_rkq_mean", "f_rkq_mean", control_only)
 d_rdm_c <- my_effect_size("b_rdm_mean", "f_rdm_mean", control_only) 
 d_bhs_c <- my_effect_size("b_bhs_mean", "f_bhs_mean", control_only) 
-d_iri_c <- my_effect_size("b_iri_mean", "f_iri_mean", intersect(control_only, in_relationship))
+d_iri_emp_c <- my_effect_size("b_iri_emp_mean", "f_iri_emp_mean", intersect(control_only, in_relationship))
+d_iri_per_c <- my_effect_size("b_iri_per_mean", "f_iri_per_mean", intersect(control_only, in_relationship))
 d_csi_c <- my_effect_size("b_csi_mean", "f_csi_mean", intersect(control_only, in_relationship))
 d_uls_c <- my_effect_size("b_uls_mean", "f_uls_mean", control_only)
 
@@ -530,7 +550,8 @@ d_c <- bind_rows(
   d_rkq_c,
   d_rdm_c,
   d_bhs_c,
-  d_iri_c,
+  d_iri_emp_c,
+  d_iri_per_c,
   d_csi_c,
   d_uls_c
 ) %>%
@@ -557,9 +578,9 @@ clean_data %>%
     matches("b_.*_mean"),
     matches("pi_.*_mean"),
     matches("f_.*_mean"),
-    -matches("_rel_"),
-    -matches("_ecr_"),
-    -pi_pfs_mean
+    # -matches("_ecr_"), 
+    -matches("_rel_"), # One timepoint only
+    -pi_pfs_mean # Program feedback scale (not an outcome)
   ) %>%
   pivot_longer(
     -condition
@@ -604,7 +625,8 @@ r_rkq <- my_regression("f_rkq_mean ~ b_rkq_mean + condition_detailed", all_parti
 r_rdm <- my_regression("f_rdm_mean ~ b_rdm_mean + condition_detailed", all_participants)
 r_bhs <- my_regression("f_bhs_mean ~ b_bhs_mean + condition_detailed", all_participants)
 r_ecr <- my_regression("f_ecr_mean ~ b_ecr_mean + condition_detailed", all_participants)
-r_iri <- my_regression("f_iri_mean ~ b_iri_mean + condition_detailed", in_relationship)
+r_iri_emp <- my_regression("f_iri_emp_mean ~ b_iri_emp_mean + condition_detailed", in_relationship)
+r_iri_per <- my_regression("f_iri_per_mean ~ b_iri_per_mean + condition_detailed", in_relationship)
 r_csi <- my_regression("f_csi_mean ~ b_csi_mean + condition_detailed", in_relationship)
 r_uls <- my_regression("f_uls_mean ~ b_uls_mean + condition_detailed", all_participants)
 
@@ -619,7 +641,8 @@ regressions <- bind_rows(
   r_rdm,
   r_bhs,
   r_ecr,
-  r_iri,
+  r_iri_emp,
+  r_iri_per,
   r_csi,
   r_uls
 )

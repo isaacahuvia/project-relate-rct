@@ -79,7 +79,8 @@ clean_data <- merged_data %>%
       c(
         b_iri_empcon_2, b_iri_empcon_6, b_iri_empcon_7, b_iri_empcon_8,
         f_iri_empcon_2, f_iri_empcon_6, f_iri_empcon_7, f_iri_empcon_8
-      )
+      ),
+      ~ 5 - .
     ),
     
     # Create PHQ-9 composites
@@ -108,8 +109,10 @@ clean_data <- merged_data %>%
     f_ecr_mean = mean(c_across("f_ecr_" %+% 1:9)),
     
     # Create IRI composites
-    b_iri_mean = mean(c_across("b_iri_empcon_" %+% 1:13)),
-    f_iri_mean = mean(c_across("f_iri_empcon_" %+% 1:13)),
+    b_iri_emp_mean = mean(c_across("b_iri_empcon_" %+% c(1, 2, 4, 6, 8, 9, 11))),
+    f_iri_emp_mean = mean(c_across("f_iri_empcon_" %+% c(1, 2, 4, 6, 8, 9, 11))),
+    b_iri_per_mean = mean(c_across("b_iri_empcon_" %+% c(3, 5, 7, 10, 12, 13))),
+    f_iri_per_mean = mean(c_across("f_iri_empcon_" %+% c(3, 5, 7, 10, 12, 13))),
     
     # Create CSI-4 composites
     b_csi_mean = mean(c_across(c("b_csi_1", "b_csi_2_" %+% 1:3))),
@@ -163,8 +166,8 @@ clean_data <- merged_data %>%
     f_gad_mean, "f_gad_" %+% 1:7,
     
     # RKQ items and composites
-    b_rkq_mean, "b_rkq_" %+% 1:21,
-    f_rkq_mean, "f_rkq_" %+% 1:21,
+    b_rkq_mean, "b_rkq_" %+% 1:10,
+    f_rkq_mean, "f_rkq_" %+% 1:10,
     
     # RDM items and composites
     b_rdm_mean, "b_rdm_" %+% 1:12,
@@ -180,8 +183,8 @@ clean_data <- merged_data %>%
     f_ecr_mean, "f_ecr_" %+% 1:9,
     
     # IRI items and composites
-    b_iri_mean, "b_iri_empcon_" %+% 1:13,
-    f_iri_mean, "f_iri_empcon_" %+% 1:13,
+    b_iri_emp_mean, b_iri_per_mean, "b_iri_empcon_" %+% 1:13,
+    f_iri_emp_mean, f_iri_per_mean, "f_iri_empcon_" %+% 1:13,
     
     # CSI-4 items and composites
     b_csi_mean, c("b_csi_1", "b_csi_2_" %+% 1:3),
