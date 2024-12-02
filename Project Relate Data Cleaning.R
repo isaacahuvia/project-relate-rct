@@ -92,8 +92,8 @@ clean_data <- merged_data %>%
     f_gad_mean = mean(c_across("f_gad_" %+% 1:7)),
     
     # Create RKQ composites
-    b_rkq_mean = mean(c_across("b_rkq_" %+% 1:21)),
-    f_rkq_mean = mean(c_across("f_rkq_" %+% 1:21)),
+    b_rkq_mean = mean(c_across("b_rkq_" %+% 1:10)),
+    f_rkq_mean = mean(c_across("f_rkq_" %+% 1:10)),
     
     # Create RDM composites
     b_rdm_mean = mean(c_across("b_rdm_" %+% 1:12)),

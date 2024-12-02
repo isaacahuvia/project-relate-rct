@@ -184,9 +184,10 @@ my_count <- function(x) {
   
 }
 
-my_mean_sd <- function(x) {
+my_mean_sd <- function(x, participants) {
   
   clean_data %>%
+    filter(email_id %in% participants) %>%
     group_by(condition) %>%
     summarize(
       mean = mean({{x}}, na.rm = T),
@@ -359,7 +360,7 @@ clean_data %>%
 ```{r}
 ## Demographics
 # Age
-my_mean_sd(age)
+my_mean_sd(age, all_participants)
 t.test(clean_data$age ~ clean_data$condition)
 
 # Sex
@@ -407,43 +408,43 @@ chisq.test(clean_data$orientation_collapsed, clean_data$condition)
 
 ## Outcomes
 # PHQ
-my_mean_sd(b_phq_mean)
+my_mean_sd(b_phq_mean, all_participants)
 my_t_test("b_phq_mean ~ condition", all_participants)
 
 # GAD
-my_mean_sd(b_gad_mean)
+my_mean_sd(b_gad_mean, all_participants)
 my_t_test("b_gad_mean ~ condition", all_participants)
 
 # RKQ
-my_mean_sd(b_rkq_mean)
+my_mean_sd(b_rkq_mean, all_participants)
 my_t_test("b_rkq_mean ~ condition", all_participants)
 
 # RDM
-my_mean_sd(b_rdm_mean)
+my_mean_sd(b_rdm_mean, all_participants)
 my_t_test("b_rdm_mean ~ condition", all_participants)
 
 # BHS
-my_mean_sd(b_bhs_mean)
+my_mean_sd(b_bhs_mean, all_participants)
 my_t_test("b_bhs_mean ~ condition", all_participants)
 
 # ECR
-my_mean_sd(b_ecr_mean)
+my_mean_sd(b_ecr_mean, all_participants)
 my_t_test("b_ecr_mean ~ condition", all_participants)
 
 # IRI: Empathic Concern
-my_mean_sd(b_iri_emp_mean)
+my_mean_sd(b_iri_emp_mean, in_relationship)
 my_t_test("b_iri_emp_mean ~ condition", in_relationship)
 
 # IRI: Perspective Taking
-my_mean_sd(b_iri_per_mean)
+my_mean_sd(b_iri_per_mean, in_relationship)
 my_t_test("b_iri_per_mean ~ condition", in_relationship)
 
 # CSI
-my_mean_sd(b_csi_mean)
+my_mean_sd(b_csi_mean, in_relationship)
 my_t_test("b_csi_mean ~ condition", in_relationship)
 
 # ULS
-my_mean_sd(b_uls_mean)
+my_mean_sd(b_uls_mean, all_participants)
 my_t_test("b_uls_mean ~ condition", all_participants)
 ```
 
