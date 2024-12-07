@@ -219,3 +219,8 @@ count(clean_data, condition, condition_detailed)
 
 ####  Save Data  ####
 saveRDS(clean_data, here("Data", "Clean Project Relate Data.rds"))
+
+# Anonymous data
+clean_data %>%
+  select(-email_id, -zip, -state) %>%
+  write.csv(here("Data", "Clean Project Relate Data - Anonymized.csv"), row.names = F)
