@@ -579,7 +579,7 @@ clean_data %>%
     matches("b_.*_mean"),
     matches("pi_.*_mean"),
     matches("f_.*_mean"),
-    # -matches("_ecr_"), 
+    -matches("_ecr_"), 
     -matches("_rel_"), # One timepoint only
     -pi_pfs_mean # Program feedback scale (not an outcome)
   ) %>%
